@@ -1,10 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: {{ .Values.app.name }}
-    component: pubsub-publisher-deployment
-    env: {{ .Values.app.env }}
   name: pubsub-publisher
 spec:
   replicas: 1
@@ -26,4 +22,11 @@ spec:
         image: {{ .Values.image }}
         imagePullPolicy: Always
         command: ["bundle"]
-        args: ["exec", "ruby", "publisher.rb"]
+        args: ["exec", "ruby", "publisher.rb", "-p", "80"]
+        readinessProbe:
+          httpGet:
+            path: /healthy
+            port: 80
+        ports:
+        - name: http
+          containerPort: 80
