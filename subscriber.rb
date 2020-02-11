@@ -10,11 +10,13 @@ subscriber   = subscription.listen do |received_message|
   received_message.acknowledge!
 end
 
+puts "Starting up.."
 subscriber.start
 
 # keep the program running, listening for messages
 puts "keeping app alive.."
 while true do
+  puts "still alive.."
   sleep 5
 end
 
