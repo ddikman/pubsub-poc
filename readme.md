@@ -37,11 +37,18 @@ export GCP_PROJECT=david-266106
 skaffold run --default-repo gcr.io/${GCP_PROJECT}
 ```
 
-## testing it
+## testing it
 
 You should now be able to see both pods running under:
 ```shell script
 kubectl get pods
+stern -l app=pubsub-poc
+```
+
+Then you can try putting something on the topic:
+
+```shell script
+curl <your-public-ip>/test
 ```
 
 ## cleaning up
