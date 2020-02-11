@@ -27,7 +27,7 @@ gcloud deployment-manager deployments update article-pubsub-poc --config deploym
 Templates to use can be found [here](https://cloud.google.com/deployment-manager/docs/reference/cloud-foundation-toolkit).
 
 
-## skaffold
+## skaffold
 
 To deploy the app using helm + skaffold:
 
