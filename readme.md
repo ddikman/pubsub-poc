@@ -6,17 +6,39 @@ To showcase how to connect up third party software using a gateway function whic
 
 First up, [enable pubsub on your gcp project](https://cloud.google.com/pubsub/docs/quickstart-client-libraries#pubsub-client-libraries-ruby).
 
-Assign your project name to an env variable, this will be used in the ruby scripts as well. You will also need to specify the filepath to the service account credentials to use:
+The topics and subscriptions will be created using the google deployments in `deployment/base.yaml`.
+
+## cloud deployment
+
+Run the deployment (or preview by adding `--preview` at the end).
 
 ```shell script
-PUBSUB_PROJ_NAME=<your-project-name>
-GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/service-account.json
+gcloud deployment-manager deployments create article-pubsub-poc --config deployment/base.yaml
 ```
 
-Enable the topic and subscriber:
+or to update if it is already created:
 
 ```shell script
-gcloud config set project $PUBSUB_PROJ_NAME
-gcloud pubsub topics create article-updates-topic
-gcloud pubsub subscriptions create article-updates-sub --topic article-updates-topic
+gcloud deployment-manager deployments update article-pubsub-poc --config deployment/base.yaml
+```
+
+Templates to use can be found [here](https://cloud.google.com/deployment-manager/docs/reference/cloud-foundation-toolkit).
+
+
+## skaffold
+
+To deploy the app using helm + skaffold:
+
+```shell script
+export GCP_PROJECT=david-266106
+./set-context.sh ${GCP_PROJECT}
+skaffold run --default-repo gcr.io/${GCP_PROJECT}
+```
+
+## cleaning up
+
+After playing with this, it's advisable to clean up, simply remove the entire deployment:
+
+```shell script
+gcloud deployment-manager deployments delete article-pubsub-poc
 ```

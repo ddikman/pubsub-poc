@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.app.name }}
+    component: pubsub-subscriber-deployment
+    env: {{ .Values.app.env }}
+  name: pubsub-subscriber
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+      env: {{ .Values.app.env }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        component: pubsub-subcriber
+        env: {{ .Values.app.env }}
+    spec:
+      containers:
+      - name: subscriber
+        image: {{ .Values.image }}
+        imagePullPolicy: Always
+        command: ["bundle"]
+        args: ["exec", "ruby", "subscriber.rb"]

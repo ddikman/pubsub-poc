@@ -1,0 +1,15 @@
+FROM ruby:2.6.5-slim
+
+# this should ideally be handled using kms
+ENV GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/service-account.json
+
+ENV APP_ROOT /usr/src/app
+RUN mkdir -p $APP_ROOT
+
+WORKDIR $APP_ROOT
+
+COPY Gemfile* $APP_ROOT/
+RUN bundle install
+
+COPY *.json $APP_ROOT/
+COPY *.rb $APP_ROOT/
