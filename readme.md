@@ -8,6 +8,8 @@ First up, [enable pubsub on your gcp project](https://cloud.google.com/pubsub/do
 
 The topics and subscriptions will be created using the google deployments in `deployment/base.yaml`.
 
+Once this is done you also need to get the service account json and store it in this local folder as `service-account.json`. These secrets would normally be injected using KMS or similar secret stores but it's outside the scope of what I'm trying to do here so.
+
 ## cloud deployment
 
 Run the deployment (or preview by adding `--preview` at the end).
@@ -33,6 +35,13 @@ To deploy the app using helm + skaffold:
 export GCP_PROJECT=david-266106
 ./set-context.sh ${GCP_PROJECT}
 skaffold run --default-repo gcr.io/${GCP_PROJECT}
+```
+
+## testing it
+
+You should now be able to see both pods running under:
+```shell script
+kubectl get pods
 ```
 
 ## cleaning up
